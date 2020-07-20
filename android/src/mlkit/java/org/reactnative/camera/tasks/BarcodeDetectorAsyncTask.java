@@ -57,7 +57,7 @@ public class BarcodeDetectorAsyncTask extends android.os.AsyncTask<Void, Void, V
     mBarcodeDetector = barcodeDetector;
     mImageDimensions = new ImageDimensions(width, height, rotation, facing);
     mScaleX = (double) (viewWidth) / (mImageDimensions.getWidth() * density);
-    mScaleY = 1 / density;
+    mScaleY = (double) (viewHeight) / (mImageDimensions.getHeight() * density );
     mPaddingLeft = viewPaddingLeft;
     mPaddingTop = viewPaddingTop;
   }
@@ -330,20 +330,12 @@ public class BarcodeDetectorAsyncTask extends android.os.AsyncTask<Void, Void, V
     int x = frame.left;
     int y = frame.top;
 
-    if (frame.left < mWidth / 2) {
-      x = x + mPaddingLeft / 2;
-    } else if (frame.left > mWidth /2) {
-      x = x - mPaddingLeft / 2;
-    }
-
-    y = y + mPaddingTop;
-
     origin.putDouble("x", x * mScaleX);
     origin.putDouble("y", y * mScaleY);
 
     WritableMap size = Arguments.createMap();
-    size.putDouble("width", frame.width() * mScaleX);
-    size.putDouble("height", frame.height() * mScaleY);
+    size.putDouble("width", frame.width() * mScaleX );
+    size.putDouble("height", frame.height() * mScaleY );
 
     WritableMap bounds = Arguments.createMap();
     bounds.putMap("origin", origin);
